@@ -28,6 +28,14 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('storeCart', 'cartController@storeCart');
 	Route::put('updateCart', 'cartController@updateCart');
 	Route::delete('deleteCart/{id_cart}', 'cartController@deleteCart');
+	
+	//checkout
+	Route::get('transCheckout', 'TransactionController@readCheckout');
+	Route::post('transStoreCheckout', 'TransactionController@storeCheckout');
+
+	//paid
+	Route::get('transPaid', 'TransactionController@readPaid');
+	Route::post('transStorePaid', 'TransactionController@storePaid');
 });
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
