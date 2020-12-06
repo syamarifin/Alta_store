@@ -23,6 +23,12 @@ Route::get('category', 'categoryController@readCategory');
 //product
 Route::get('product', 'productController@readProduct');
 
+Route::group(['middleware' => 'auth:api'], function(){
+	Route::get('cart', 'cartController@readCart');
+	Route::post('storeCart', 'cartController@storeCart');
+	Route::put('updateCart', 'cartController@updateCart');
+	Route::delete('deleteCart/{id_cart}', 'cartController@deleteCart');
+});
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
