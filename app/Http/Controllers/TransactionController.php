@@ -30,7 +30,6 @@ class TransactionController extends Controller
 	    foreach ($data_cart['data'] as $value) {
 	    	$cart = cart::join('product', 'product.id', '=', 'cart.product_cart')
             ->select(['cart.product_cart', 'product.name_product','product.price', 'cart.qty_cart'])
-            // $cart = cart::with('produk','user')
             	->where('cart.user_cart', Auth::user()->id)
                 ->where('cart.id', $value['id'])
                 ->first();
