@@ -17,9 +17,9 @@ class cart extends Model
     			'updated_at'
     		];
 
-    public function product()
+    public function produk()
     {
-    	return $this->belongsTo('App\Model\transaction', 'product_cart');
+    	return $this->belongsTo('App\Model\product', 'product_cart');
     }
 
     public function user()
