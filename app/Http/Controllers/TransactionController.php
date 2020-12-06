@@ -56,10 +56,11 @@ class TransactionController extends Controller
 
 		$paidTrue = transaction::where([
         	['user_id','=',Auth::user()->id],
-        	['paid','=',1]
+        	['paid','=',1],
+        	['id','=', $Request->id_trans]
         ])->get();
 
-		return new TransactionResource($paidTrue);
+		return TransactionResource::collection($paidTrue);
     }
     
     public function readPaid(Request $request)
