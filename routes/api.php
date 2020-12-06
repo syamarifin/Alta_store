@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	//checkout
 	Route::get('transCheckout', 'TransactionController@readCheckout');
 	Route::post('transStoreCheckout', 'TransactionController@storeCheckout');
+	
 	//paid
 	Route::get('transPaid', 'TransactionController@readPaid');
 	Route::post('transStorePaid', 'TransactionController@storePaid');

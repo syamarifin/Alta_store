@@ -27,6 +27,7 @@ class TransactionController extends Controller
 	    	'user_id' 	=> Auth::user()->id, 
 	    	'paid' 			=> 0, 
 	    ]);
+	    
 	    foreach ($data_cart['data'] as $value) {
 	    	$cart = cart::join('product', 'product.id', '=', 'cart.product_cart')
             ->select(['cart.product_cart', 'product.name_product','product.price', 'cart.qty_cart'])

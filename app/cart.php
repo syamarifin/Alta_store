@@ -21,6 +21,7 @@ class cart extends Model
     {
     	return $this->belongsTo('App\Model\product', 'product_cart');
     }
+    
     public function user()
     {
     	return $this->belongsTo('App\Model\User', 'user_cart');
