@@ -7,72 +7,267 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## About Laravel
+# ALTA STORE API
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Projek ini di buat intuk menghubungkan backend *ALTA STORE* dengan frontend, project ini menggunakan teknologi **laravel 7** dan **MySQL** yang terdiri dari beberapa modul seperti:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Register.
+- Login.
+- Product.
+- Cart.
+- Transaction.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## API Documentasi
+### USER
+Method "USER" terdiri dari 2 fungsi yakni register dan login.
+| Method   | Url            | Parameter (data)      |
+| -------- | -------------- | --------------------- |
+| **POST** | user/register  | name, email, password |
+| **POST** | user/login     | email, password       |
 
-## Learning Laravel
+### Contoh Response Register
+```java
+{
+    "data": {
+        "id": 8,
+        "name": "Syamsul",
+        "email": "s_arifin90@yahoo.co.id",
+        "API_TOKEN": "inRVoGE185e1i4IJ9fb05edX7ZChbwQIW5oLDyFOyAZuaX9xEsk4BokxRnMZ",
+        "created_at": "2020-12-07T01:33:05.000000Z",
+        "updated_at": "2020-12-07T01:33:05.000000Z"
+    }
+}
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### KATEGORY & PRODUK
+Method berisi fungsi untuk menampilkan kategori dan produk berdasarkan categori yang di pilih maupun menampilkan semua produk.
+| Method  | Url                          |
+| ------- |----------------------------- |
+| **GET** | category                     |
+| **GET** | product / product?category=1 |
+### Contoh Response Categori
+```java
+{
+    "data": [
+        {
+            "id": 1,
+            "name_category": "Pakaian"
+        },
+        {
+            "id": 2,
+            "name_category": "Aksesoris"
+        }
+    ]
+}
+```
+### CART
+| Method     | Url                          | Parameter (data)                     |
+| ---------- | ---------------------------- | ------------------------------------ |
+| **GET**    | cart                         |                                      |
+| **POST**   | storeCart                    | product_cart, qty_cart               |
+| **PUT**    | updateCart?id_cart={id_cart} | {	"qty_cart" : 3 } (bentuk ARRAY)    |
+| **DELETE** | deleteCart/{id_cart}         |                                      |
+### Contoh Response Cart
+```java
+{
+    "data": [
+        {
+            "id": 4,
+            "product_cart": 1,
+            "user_cart": 7,
+            "qty_cart": 2,
+            "created_at": "2020-12-06T07:15:44.000000Z",
+            "updated_at": "2020-12-06T07:15:44.000000Z"
+        }
+    ]
+}
+```
+### Contoh Response Store Cart
+```java
+{
+    "data": {
+        "id": 5,
+        "product_cart": "1",
+        "user_cart": 7,
+        "qty_cart": "2",
+        "created_at": "2020-12-07T01:48:18.000000Z",
+        "updated_at": "2020-12-07T01:48:18.000000Z"
+    }
+}
+```
+### Contoh Response Update Cart
+```java
+[
+    {
+        "id": 5,
+        "product_cart": 1,
+        "user_cart": 7,
+        "qty_cart": 3,
+        "created_at": "2020-12-07T01:48:18.000000Z",
+        "updated_at": "2020-12-07T01:48:18.000000Z"
+    }
+]
+```
+### Contoh Response Delete Cart
+```java
+{
+    "message": "deleted succes"
+}
+```
+### CHECKOUT & PAID PRODUK
+| Method     | Url                                   | Parameter (data)                     |
+| ---------- | ------------------------------------- | ------------------------------------ |
+| **GET**    | transCheckout                         |                                      |
+| **POST**   | storeCart                             | **Contoh Parameter di bawah.**       |
+| **GET**    | transPaid                             |                                      |
+| **POST**   | transStorePaid?id_trans={id_Checkout} |                                      |
+### Contoh Response Cart
+```java
+{
+    "data": [
+        {
+            "id": 3,
+            "paid": 0,
+            "created_at": "06/12/2020 10:02:10",
+            "transaction_details": [
+                {
+                    "id": 1,
+                    "product_id": 1,
+                    "product_name": "jaket",
+                    "price": 150000,
+                    "qty": 2,
+                    "amount": 300000
+                },
+                {
+                    "id": 2,
+                    "product_id": 1,
+                    "product_name": "jaket",
+                    "price": 150000,
+                    "qty": 2,
+                    "amount": 300000
+                }
+            ]
+        }
+    ]
+}
+```
+### Parameter Store Checkout
+```java
+    {"data":[
+        {"id":"6"},
+        {"id":"7"}
+    ]}
+```
+### Response Store Checkout
+```java
+    {
+        "data": {
+            "id": 20,
+            "paid": 0,
+            "created_at": "07/12/2020 02:02:39",
+            "transaction_details": [
+                {
+                    "id": 7,
+                    "product_id": 1,
+                    "product_name": "jaket",
+                    "price": 150000,
+                    "qty": 2,
+                    "amount": 300000
+                },
+                {
+                    "id": 8,
+                    "product_id": 3,
+                    "product_name": "Jeans",
+                    "price": 200000,
+                    "qty": 1,
+                    "amount": 200000
+                }
+            ]
+        }
+    }
+```
+### Response Paid
+```java
+    {
+        "data": [
+            {
+                "id": 18,
+                "paid": 1,
+                "created_at": "06/12/2020 10:24:05",
+                "transaction_details": [
+                    {
+                        "id": 3,
+                        "product_id": 1,
+                        "product_name": "jaket",
+                        "price": 150000,
+                        "qty": 2,
+                        "amount": 300000
+                    },
+                    {
+                        "id": 4,
+                        "product_id": 1,
+                        "product_name": "jaket",
+                        "price": 150000,
+                        "qty": 2,
+                        "amount": 300000
+                    }
+                ]
+            },
+            {
+                "id": 19,
+                "paid": 1,
+                "created_at": "06/12/2020 10:25:12",
+                "transaction_details": [
+                    {
+                        "id": 5,
+                        "product_id": 1,
+                        "product_name": "jaket",
+                        "price": 150000,
+                        "qty": 2,
+                        "amount": 300000
+                    },
+                    {
+                        "id": 6,
+                        "product_id": 1,
+                        "product_name": "jaket",
+                        "price": 150000,
+                        "qty": 2,
+                        "amount": 300000
+                    }
+                ]
+            }
+        ]
+    }
+```
+### Response Store Paid
+```java
+    {
+        "data": [
+            {
+                "id": 20,
+                "paid": 1,
+                "created_at": "07/12/2020 02:02:39",
+                "transaction_details": [
+                    {
+                        "id": 7,
+                        "product_id": 1,
+                        "product_name": "jaket",
+                        "price": 150000,
+                        "qty": 2,
+                        "amount": 300000
+                    },
+                    {
+                        "id": 8,
+                        "product_id": 3,
+                        "product_name": "Jeans",
+                        "price": 200000,
+                        "qty": 1,
+                        "amount": 200000
+                    }
+                ]
+            }
+        ]
+    }
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
